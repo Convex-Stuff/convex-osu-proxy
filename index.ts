@@ -20,6 +20,21 @@ Bun.serve({
         return Response.json(await res.json(), { status: res.status });
       },
     },
+    "/get_match": {
+      GET: async (req) => {
+        const url = new URL(req.url);
+        const k = url.searchParams.get("k");
+        const mp = url.searchParams.get("mp");
+
+        if (!k || !mp) {
+          return Response.json({ error: "Missing required query parameters: k, mp" }, { status: 400 });
+        }
+
+        const res = await fetch(`${baseUrl}/get_beatmaps?k=${k}&mp=${mp}`);
+
+        return Response.json(await res.json(), { status: res.status });
+      },
+    },
 
     "/get_user": {
       GET: async (req) => {
