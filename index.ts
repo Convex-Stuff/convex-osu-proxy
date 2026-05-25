@@ -30,7 +30,7 @@ Bun.serve({
           return Response.json({ error: "Missing required query parameters: k, mp" }, { status: 400 });
         }
 
-        const res = await fetch(`${baseUrl}/get_beatmaps?k=${k}&mp=${mp}`);
+        const res = await fetch(`${baseUrl}/get_match?k=${k}&mp=${mp}`);
 
         return Response.json(await res.json(), { status: res.status });
       },
