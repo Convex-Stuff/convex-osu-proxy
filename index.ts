@@ -72,6 +72,58 @@ Bun.serve({
         return Response.json(await res.json(), { status: res.status });
       },
     },
+    "/v2/beatmaps/:id/attributes": {
+      POST: async (req) => {
+        const { id } = req.params;
+        const authorization = req.headers.get("Authorization");
+
+        if (!authorization) {
+          return Response.json({ error: "Missing Authorization header" }, { status: 401 });
+        }
+
+        const body = await req.json();
+
+        const res = await fetch(`https://osu.ppy.sh/api/v2/beatmaps/${id}/attributes`, {
+          method: "POST",
+          headers: { Authorization: authorization, "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        return Response.json(await res.json(), { status: res.status });
+      },
+    },
+    "/v2/matches/:id": {
+      GET: async (req) => {
+        const { id } = req.params;
+        const authorization = req.headers.get("Authorization");
+
+        if (!authorization) {
+          return Response.json({ error: "Missing Authorization header" }, { status: 401 });
+        }
+
+        const res = await fetch(`https://osu.ppy.sh/api/v2/matches/${id}`, {
+          headers: { Authorization: authorization },
+        });
+
+        return Response.json(await res.json(), { status: res.status });
+      },
+    },
+    "/v2/beatmaps/:id": {
+      GET: async (req) => {
+        const { id } = req.params;
+        const authorization = req.headers.get("Authorization");
+
+        if (!authorization) {
+          return Response.json({ error: "Missing Authorization header" }, { status: 401 });
+        }
+
+        const res = await fetch(`https://osu.ppy.sh/api/v2/beatmaps/${id}`, {
+          headers: { Authorization: authorization },
+        });
+
+        return Response.json(await res.json(), { status: res.status });
+      },
+    },
   },
   port: process.env.PORT ?? 3000,
 });
