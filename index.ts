@@ -15,7 +15,13 @@ Bun.serve({
           return Response.json({ error: "Missing required query parameters: k, b" }, { status: 400 });
         }
 
-        const res = await fetch(`${baseUrl}/get_beatmaps?k=${k}&b=${b}`);
+        const mods = url.searchParams.get("mods");
+        const upstream = new URL(`${baseUrl}/get_beatmaps`);
+        upstream.searchParams.set("k", k);
+        upstream.searchParams.set("b", b);
+        if (mods !== null) upstream.searchParams.set("mods", mods);
+
+        const res = await fetch(upstream.toString());
 
         return Response.json(await res.json(), { status: res.status });
       },
