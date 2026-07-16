@@ -1,7 +1,9 @@
+import { instrumentRoutes } from "./telemetry";
+
 const baseUrl = "https://osu.ppy.sh/api"
 console.log("i started doing shit");
 Bun.serve({
-  routes: {
+  routes: instrumentRoutes({
     "/": {
       GET: () => Response.json({ message: "bello" }),
     },
@@ -145,6 +147,6 @@ Bun.serve({
         return Response.json(await res.json(), { status: res.status });
       },
     },
-  },
+  }),
   port: process.env.PORT ?? 3000,
 });
